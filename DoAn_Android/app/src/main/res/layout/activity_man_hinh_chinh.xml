@@ -97,6 +97,7 @@
         android:gravity="center"
         android:background="#4CAF50"
         android:text="Lịch sử chơi"
+        android:onClick="LichSu"
         />
 
 </LinearLayout>

@@ -18,4 +18,9 @@ public class Man_hinh_chinh extends AppCompatActivity {
         Intent intent = new Intent(Man_hinh_chinh.this, Tra_loi.class);
         startActivity(intent);
     }
+
+    public void LichSu(View view){
+        Intent intent = new Intent(Man_hinh_chinh.this,LichSuChoi.class);
+        startActivity(intent);
+    }
 }

@@ -1,4 +1,5 @@
 package com.example.doancuoiki;
+
 import io.netopen.hotbitmapgg.library.view.RingProgressBar;
 
 import androidx.annotation.NonNull;
@@ -30,20 +31,32 @@ import java.util.Random;
 public class Tra_loi extends AppCompatActivity {
 
     private TextView textView;
-    TextView txtCauHoi,txtCauTL1,txtCauTL2,txtCauTL3,txtCauTL4,txtKetThuc;
+    TextView txtCauHoi, txtCauTL1, txtCauTL2, txtCauTL3, txtCauTL4, txtKetThuc;
     ArrayList<TextView> arrtxvCauTraLoi;
     ListView lsvTienThuong;
     TienthuongAdapter tienthuongAdapter;
     ArrayList<String> arrayTienThuong;
     RingProgressBar progressBar;
     Handler myHandler;
-    int progress=0;
+    int progress = 0;
     CauHoi cauHoi;
     String cauTraLoi;
-    int soCauHoi =0;
-    int vtCauHoi=1;
+    int soCauHoi = 0;
+    int vtCauHoi = 1;
     View.OnClickListener listener;
     FaceData faceData;
+
+    ImageView Goidien;
+    ImageView DoiCauHoi;
+    ImageView an2DA;
+    ImageView khangia;
+    ImageView nguoithan1;
+    ImageView nguoithan2;
+    ImageView nguoithan3;
+    ImageView nguoithan4;
+    TextView Goiy;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,25 +64,30 @@ public class Tra_loi extends AppCompatActivity {
         setContentView(R.layout.activity_tra_loi);
         //progressBar=findViewById(R.id.progress_bar_1);
         //ringProgress();
-       // Countdown();
+        // Countdown();
+        Goidien= findViewById(R.id.imgGoiDien);
+        khangia = findViewById(R.id.imageViewKhanGia);
+        an2DA = findViewById(R.id.imageView5050);
+        DoiCauHoi = findViewById(R.id.imageViewDoiCauhoi);
         init();
         anhxa();
         setUp();
         setClick();
     }
+
     //Khai báo hàm cho progress dạng ring
-    public void ringProgress(){
+    public void ringProgress() {
         progressBar.setOnProgressListener(new RingProgressBar.OnProgressListener() {
             @Override
             public void progressToComplete() {
-                Toast.makeText(Tra_loi.this,"Hết thời gian",Toast.LENGTH_LONG).show();
+                Toast.makeText(Tra_loi.this, "Hết thời gian", Toast.LENGTH_LONG).show();
             }
         });
-        myHandler = new Handler(){
+        myHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
-                if(msg.what==0){
-                    if (progress<100){
+                if (msg.what == 0) {
+                    if (progress < 100) {
                         progress++;
                         progressBar.setProgress(progress);
                     }
@@ -79,12 +97,11 @@ public class Tra_loi extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                for (int i=0;i<100;i++)
+                for (int i = 0; i < 100; i++)
                     try {
                         Thread.sleep(100);
                         myHandler.sendEmptyMessage(0);
-                    }
-                    catch (InterruptedException e){
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
             }
@@ -103,8 +120,8 @@ public class Tra_loi extends AppCompatActivity {
         }.start();
     }*/
 
-    public void init(){
-        arrayTienThuong= new ArrayList<>();
+    public void init() {
+        arrayTienThuong = new ArrayList<>();
         arrayTienThuong.add("1000000");
         arrayTienThuong.add("500000");
         arrayTienThuong.add("250000");
@@ -121,23 +138,24 @@ public class Tra_loi extends AppCompatActivity {
         arrayTienThuong.add("200");
         arrayTienThuong.add("100");
 
-        tienthuongAdapter = new TienthuongAdapter(this,0,arrayTienThuong);
+        tienthuongAdapter = new TienthuongAdapter(this, 0, arrayTienThuong);
 
-        cauHoi= new CauHoi();
+        cauHoi = new CauHoi();
 
         arrtxvCauTraLoi = new ArrayList<>();
 
         faceData = new FaceData();
 
     }
-    public void anhxa(){
-        lsvTienThuong= findViewById(R.id.lsvTienThuong);
-        txtCauHoi= findViewById(R.id.txtCauHoi);
-        txtCauTL1= findViewById(R.id.textviewDA1);
-        txtCauTL2= findViewById(R.id.textviewDA2);
-        txtCauTL3= findViewById(R.id.textviewDA3);
-        txtCauTL4= findViewById(R.id.textviewDA4);
-        txtKetThuc= findViewById(R.id.txtKetthuc);
+
+    public void anhxa() {
+        lsvTienThuong = findViewById(R.id.lsvTienThuong);
+        txtCauHoi = findViewById(R.id.txtCauHoi);
+        txtCauTL1 = findViewById(R.id.textviewDA1);
+        txtCauTL2 = findViewById(R.id.textviewDA2);
+        txtCauTL3 = findViewById(R.id.textviewDA3);
+        txtCauTL4 = findViewById(R.id.textviewDA4);
+        txtKetThuc = findViewById(R.id.txtKetthuc);
 
         arrtxvCauTraLoi.add(txtCauTL1);
         arrtxvCauTraLoi.add(txtCauTL2);
@@ -145,9 +163,9 @@ public class Tra_loi extends AppCompatActivity {
         arrtxvCauTraLoi.add(txtCauTL4);
 
 
-
     }
-    public void setUp(){
+
+    public void setUp() {
         //tạm ẩn màn hình kết thúc trò chơi
         txtKetThuc.setVisibility(View.GONE);
 
@@ -156,22 +174,36 @@ public class Tra_loi extends AppCompatActivity {
         hienthiCauHoi();
 
     }
-    public void setClick(){
+
+
+    public void setClick() {
         listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkCauTraLoi(((TextView)v));
+                checkCauTraLoi((TextView) v);
+                txtCauTL1.setEnabled(false);
+                txtCauTL2.setEnabled(false);
+                txtCauTL3.setEnabled(false);
+                txtCauTL4.setEnabled(false);
+                Goidien.setEnabled(false);
+                DoiCauHoi.setEnabled(false);
+                an2DA.setEnabled(false);
+                khangia.setEnabled(false);
             }
         };
-        for (TextView t:arrtxvCauTraLoi){
+        for (TextView t : arrtxvCauTraLoi) {
+
             t.setOnClickListener(listener);
+
+
         }
     }
-    public void checkCauTraLoi(TextView txv){
+
+    public void checkCauTraLoi(TextView txv) {
         cauTraLoi = txv.getText().toString();
         txv.setBackgroundResource(R.drawable.bg_cau_chon);
 
-        new CountDownTimer(1000,100){
+        new CountDownTimer(1000, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -179,14 +211,14 @@ public class Tra_loi extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                for (TextView t:arrtxvCauTraLoi){
-                    String s= t.getText().toString();
-                    if(s.equals(cauHoi.getDapAnDung())){
+                for (TextView t : arrtxvCauTraLoi) {
+                    String s = t.getText().toString();
+                    if (s.equals(cauHoi.getDapAnDung())) {
                         t.setBackgroundResource(R.drawable.bg_cau_dung);
                         break;
                     }
                 }
-                new CountDownTimer(1000,100){
+                new CountDownTimer(1000, 100) {
                     @NonNull
                     @Override
                     protected Object clone() throws CloneNotSupportedException {
@@ -200,19 +232,19 @@ public class Tra_loi extends AppCompatActivity {
 
                     @Override
                     public void onFinish() {
-                        if (cauTraLoi.equals(cauHoi.getDapAnDung())){
+                        if (cauTraLoi.equals(cauHoi.getDapAnDung())) {
                             vtCauHoi++;
-                            if(vtCauHoi>15){
-                                vtCauHoi=15;
+                            if (vtCauHoi > 15) {
+                                vtCauHoi = 15;
                                 txtKetThuc.setVisibility(View.VISIBLE);
-                                txtKetThuc.setText("Bạn đã chiến thắngsố tiền \n"+ arrayTienThuong.get(0)+ "000 VND");
+                                txtKetThuc.setText("Bạn đã chiến thắngsố tiền \n" + arrayTienThuong.get(0) + "000 VND");
                                 return;
                             }
                             hienthiCauHoi();
-                        } else{
+                        } else {
                             txtKetThuc.setVisibility(View.VISIBLE);
-                            int VtTienThuong= (vtCauHoi/5)*5;
-                            txtKetThuc.setText("Bạn sẽ ra về với số tiền \n"+ arrayTienThuong.get(14-VtTienThuong)+ "000 VND");
+                            int VtTienThuong = (vtCauHoi / 5) * 5;
+                            txtKetThuc.setText("Bạn sẽ ra về với số tiền \n" + arrayTienThuong.get(14 - VtTienThuong) + "000 VND");
                         }
 
                     }
@@ -222,27 +254,36 @@ public class Tra_loi extends AppCompatActivity {
     }
 
     //Gán câu hỏi vào class câu hỏi
-    public  void setCauHoi(){
-        cauHoi= faceData.taoCauHoi(vtCauHoi);
+    public void setCauHoi() {
+        cauHoi = faceData.taoCauHoi(vtCauHoi);
     }
+
     //Hàm hiển thị câu hỏi ra giao diện
-    public void hienthiCauHoi(){
+    public void hienthiCauHoi() {
+        txtCauTL1.setEnabled(true);
+        txtCauTL2.setEnabled(true);
+        txtCauTL3.setEnabled(true);
+        txtCauTL4.setEnabled(true);
+        Goidien.setEnabled(true);
+        DoiCauHoi.setEnabled(true);
+        an2DA.setEnabled(true);
+        khangia.setEnabled(true);
         setCauHoi();
         txtCauHoi.setText(cauHoi.getNoiDung());
-        ArrayList<String> arrCauTraLoi= new ArrayList<>(cauHoi.getArrDapAnSai());
+        ArrayList<String> arrCauTraLoi = new ArrayList<>(cauHoi.getArrDapAnSai());
         arrCauTraLoi.add(cauHoi.getDapAnDung());
 
-        Random r= new Random();
-        for (int i=0;i<10;i++){
-            int vt1=r.nextInt(arrCauTraLoi.size());
-            int vt2=r.nextInt(arrCauTraLoi.size());
-            String a= arrCauTraLoi.get(vt1);
-            arrCauTraLoi.set(vt1,arrCauTraLoi.get(vt2));
-            arrCauTraLoi.set(vt2,a);
+        Random r = new Random();
+        for (int i = 0; i < 10; i++) {
+            int vt1 = r.nextInt(arrCauTraLoi.size());
+            int vt2 = r.nextInt(arrCauTraLoi.size());
+            String a = arrCauTraLoi.get(vt1);
+            arrCauTraLoi.set(vt1, arrCauTraLoi.get(vt2));
+            arrCauTraLoi.set(vt2, a);
 
         }
 
-        for(int i=0;i<arrtxvCauTraLoi.size();i++){
+        for (int i = 0; i < arrtxvCauTraLoi.size(); i++) {
             arrtxvCauTraLoi.get(i).setOnClickListener(listener);
             arrtxvCauTraLoi.get(i).setVisibility(View.VISIBLE);
             arrtxvCauTraLoi.get(i).setBackgroundResource(R.drawable.bg_btn);
@@ -251,68 +292,92 @@ public class Tra_loi extends AppCompatActivity {
 
         tienthuongAdapter.setVtCauHoi(vtCauHoi);
     }
-    boolean trogiup5050= true;
+
+    boolean trogiup5050 = true;
+
     public void trogiup5050(View view) {
-        if (trogiup5050==false){
+        if (trogiup5050 == false) {
             return;
         }
-        Random r= new Random();
-        int soDA_An=2;
+        Random r = new Random();
+        int soDA_An = 2;
+        int vt_DA_An;
         do {
-            int vt_DA_An = r.nextInt(4);
-            TextView t= arrtxvCauTraLoi.get(vt_DA_An);
-            if (t.getText().toString().equals(cauHoi.getDapAnDung())==false){
+            vt_DA_An = r.nextInt(4);
+            TextView t = arrtxvCauTraLoi.get(vt_DA_An);
+            if (t.getText().toString().equals(cauHoi.getDapAnDung()) == false) {
                 t.setVisibility(View.INVISIBLE);
                 t.setOnClickListener(null);
                 soDA_An--;
             }
+        }
+        while (vt_DA_An<=4 &&soDA_An > 0);
+        //trogiup5050 = false;
 
-        }while(soDA_An>0);
-        trogiup5050=false;
-        ImageView imageView = findViewById(R.id.imageView5050);
-        imageView.setVisibility(View.INVISIBLE);
+        an2DA.setVisibility(View.INVISIBLE);
     }
-//Hàm xử lý trợ giúp khán giả
-    boolean troGiupKhanGia=true;
+
+    //Hàm xử lý trợ giúp khán giả
+    boolean troGiupKhanGia = true;
+
     public void TrogiupKhangia(View view) {
-        if (troGiupKhanGia==false){
+        if (troGiupKhanGia == false) {
             return;
         }
-        for (int i=0;i<arrtxvCauTraLoi.size();i++)
-        {
-            TextView t= arrtxvCauTraLoi.get(i);
-            if(t.getText().toString().equals(cauHoi.getDapAnDung())){
-                new KhanGia_TraLoi(this,i+1).show();
+        for (int i = 0; i < arrtxvCauTraLoi.size(); i++) {
+            TextView t = arrtxvCauTraLoi.get(i);
+            if (t.getText().toString().equals(cauHoi.getDapAnDung())) {
+                new KhanGia_TraLoi(this, i + 1).show();
                 break;
 
             }
         }
-        troGiupKhanGia=false;
-        ImageView khangia= findViewById(R.id.imageViewKhanGia);
+        troGiupKhanGia = false;
+
         khangia.setVisibility(View.INVISIBLE);
     }
 
-    boolean TrogiupDoiCauhoi= true;
+    boolean TrogiupDoiCauhoi = true;
+
     public void DoiCauHoi(View view) {
-        if (TrogiupDoiCauhoi==false){
+        if (TrogiupDoiCauhoi == false) {
             return;
         }
         hienthiCauHoi();
-        TrogiupDoiCauhoi=false;
-        ImageView DoiCauHoi= findViewById(R.id.imageViewDoiCauhoi);
-       DoiCauHoi.setVisibility(View.INVISIBLE);
+        TrogiupDoiCauhoi = false;
+        DoiCauHoi.setVisibility(View.INVISIBLE);
     }
 
 
+    public void GoiDien(View view) {
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_goi_dien);
+        dialog.show();
+        Goiy = dialog.findViewById(R.id.txtGoiY);
+        nguoithan1 = dialog.findViewById(R.id.help1);
+        nguoithan2 = dialog.findViewById(R.id.help2);
+        nguoithan3 = dialog.findViewById(R.id.help3);
+        nguoithan4 = dialog.findViewById(R.id.help4);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Goiy.setText("Tôi nghĩ đáp án đúng là "+cauHoi.getDapAnDung().toString());
+                nguoithan1.setVisibility(View.INVISIBLE);
+                nguoithan2.setVisibility(View.INVISIBLE);
+                nguoithan3.setVisibility(View.INVISIBLE);
+                nguoithan4.setVisibility(View.INVISIBLE);
+                Goiy.setVisibility(View.VISIBLE);
+                Goidien.setVisibility(View.INVISIBLE);
 
-        public void GoiDien(View view) {
-            final Dialog dialog = new Dialog(this);
-            dialog.setContentView(R.layout.dialog_goi_dien);
-            dialog.show();
-
+            }
+        };
+            nguoithan1.setOnClickListener(listener);
+            nguoithan2.setOnClickListener(listener);
+            nguoithan3.setOnClickListener(listener);
+            nguoithan4.setOnClickListener(listener);
 
 
         }
 
 
-}
+    }

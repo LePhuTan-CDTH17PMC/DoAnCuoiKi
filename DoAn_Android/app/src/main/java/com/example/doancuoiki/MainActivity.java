@@ -74,5 +74,9 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertDialog= dialog.create();
         alertDialog.show();
     }
+    public void dangki(View view){
+        Intent intent= new Intent(MainActivity.this,Dang_Ky.class);
+        startActivity(intent);
+    }
 
 }

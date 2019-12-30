@@ -33,7 +33,7 @@ public class TienthuongAdapter extends ArrayAdapter<String> {
     }
 
 
-
+    //Hiển thị danh sách tiền trong game
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
